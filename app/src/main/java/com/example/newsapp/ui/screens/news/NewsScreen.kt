@@ -48,8 +48,6 @@ import com.example.newsapp.R
 import com.example.newsapp.di.DaggerViewModelProvider
 import com.example.newsapp.entity.News
 
-
-@Preview
 @Composable
 fun NewsScreen() {
     val newsViewModel = DaggerViewModelProvider.daggerViewModel {
@@ -241,7 +239,6 @@ fun WebViewOverlay(
 
     Box(
         modifier = Modifier
-            .fillMaxSize()
             .clickable(onClick = onClose)
             .padding(top = 10.dp)
     ) {
@@ -273,7 +270,7 @@ fun WebViewScreen(url: String) {
                 )
             }
         }, update = {
-            it.loadDataWithBaseURL(null, url, "text/html", "utf-8", null)
+            it.loadUrl(url)
         })
     }
 }
