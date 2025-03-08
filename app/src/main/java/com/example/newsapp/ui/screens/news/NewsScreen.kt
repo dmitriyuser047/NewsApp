@@ -222,8 +222,7 @@ fun NewsView(
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
-                .padding(bottom = 10.dp),
+                .height(200.dp),
             contentScale = ContentScale.Crop
         ) { requestBuilder ->
             requestBuilder.placeholder(R.drawable.ic_launcher_foreground)
