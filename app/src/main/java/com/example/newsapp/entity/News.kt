@@ -18,4 +18,6 @@ data class News(
     val newsDateUts: String,
     @Json(name = "mobile_url")
     val mobileUrl: String
-)
+) : INews {
+    override var hiden: Boolean? = false
+}

@@ -72,6 +72,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    //livedata
+    implementation (libs.androidx.runtime.livedata)
     //navigation compose
     implementation(libs.androidx.navigation.compose)
     //net
@@ -101,4 +103,5 @@ dependencies {
     //Glide
     implementation(libs.glide)
     ksp(libs.compiler)
+    implementation (libs.compose)
 }

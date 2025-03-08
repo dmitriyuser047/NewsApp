@@ -1,14 +1,14 @@
 package com.example.newsapp.data
 
+import androidx.lifecycle.LiveData
 import com.example.newsapp.entity.News
-import com.example.newsapp.entity.NewsData
-import com.example.newsapp.entity.NewsInfo
-import kotlinx.coroutines.flow.Flow
-import retrofit2.http.GET
-import retrofit2.http.Header
+import com.example.newsapp.room.entity.NewsEntity
 
 interface IRepository {
-    suspend fun testGetter()
-    suspend fun getNewsList(): Flow<NewsInfo>
+    suspend fun getNewsList(): LiveData<List<News>>
     suspend fun upsertToDatabase(news: List<News>)
+    suspend fun fetchNewsFromApi()
+    suspend fun updateNews(news: News)
+    fun reformedNewsToEntity(news: News): NewsEntity
+    fun reformedNewsEntity(newsEntity: List<NewsEntity>): List<News>
 }

@@ -2,10 +2,10 @@ package com.example.newsapp.room.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.squareup.moshi.Json
+import com.example.newsapp.entity.INews
 
 @Entity
-data class NewsEntity (
+data class NewsEntity(
     @PrimaryKey val id: Int,
     val title: String,
     val img: String,
@@ -15,5 +15,6 @@ data class NewsEntity (
     val idResource: Int,
     val type: Int,
     val newsDateUts: String,
-    val mobileUrl: String
-)
+    val mobileUrl: String,
+    override var hiden: Boolean?
+) : INews
