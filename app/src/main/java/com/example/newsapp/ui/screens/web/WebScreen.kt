@@ -45,6 +45,7 @@ fun WebScreen(url: String, navController: NavController) {
         AndroidView(
             factory = { webView },
             modifier = Modifier.fillMaxSize()
+                .padding(top = 16.dp)
         )
 
         IconButton(

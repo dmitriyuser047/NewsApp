@@ -1,11 +1,11 @@
 package com.example.newsapp.data
 
-import androidx.lifecycle.LiveData
 import com.example.newsapp.entity.News
 import com.example.newsapp.room.entity.NewsEntity
+import kotlinx.coroutines.flow.Flow
 
 interface IRepository {
-    suspend fun getNewsList(): LiveData<List<News>>
+    suspend fun getNewsList(): Flow<List<News>>
     suspend fun upsertToDatabase(news: List<News>)
     suspend fun fetchNewsFromApi()
     suspend fun updateNews(news: News)

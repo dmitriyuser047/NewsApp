@@ -1,20 +1,20 @@
 package com.example.newsapp.ui.screens.news
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsapp.data.Repository
 import com.example.newsapp.entity.News
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class NewsViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-    private val _news = MutableLiveData<List<News>>()
-    val news: LiveData<List<News>>
+    private val _news = MutableStateFlow(emptyList<News>())
+    val news: StateFlow<List<News>>
         get() = _news
 
     init {
@@ -23,9 +23,8 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
 
     fun getListNews() {
         viewModelScope.launch {
-            val newsLiveData = repository.getNewsList()
-            newsLiveData.observeForever {
-                _news.value = it
+            repository.getNewsList().collect { newsList ->
+                _news.value = newsList
             }
         }
     }

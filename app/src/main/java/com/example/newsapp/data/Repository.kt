@@ -1,10 +1,10 @@
 package com.example.newsapp.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import com.example.newsapp.entity.News
 import com.example.newsapp.room.dao.NewsDao
 import com.example.newsapp.room.entity.NewsEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,11 +14,10 @@ class Repository @Inject constructor(
     private val newsDao: NewsDao
 ) : IRepository {
 
-    override suspend fun getNewsList(): LiveData<List<News>> {
-        val newsFromDb = newsDao.observeAllNews()
+    override suspend fun getNewsList(): Flow<List<News>>  {
         fetchNewsFromApi()
-        return newsFromDb.map { newsEntities ->
-            reformedNewsEntity(newsEntities)
+        return newsDao.observeAllNews().map { entities ->
+            reformedNewsEntity(entities)
         }
     }
 
