@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
     id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -87,9 +88,12 @@ dependencies {
     implementation(libs.moshi.kotlin)
     implementation(libs.moshi.adapters)
     //dagger
-    implementation(libs.dagger)
-    implementation(libs.dagger.android)
-    ksp(libs.dagger.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation ("com.google.dagger:hilt-android:2.55")
+    ksp("com.google.dagger:hilt-compiler:2.55")
+//    implementation(libs.dagger)
+//    implementation(libs.dagger.android)
+//    ksp(libs.dagger.compiler)
     //moxy
     implementation(libs.moxy)
     implementation(libs.moxy.androidx)

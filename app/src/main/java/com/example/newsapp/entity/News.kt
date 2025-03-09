@@ -19,5 +19,5 @@ data class News(
     @Json(name = "mobile_url")
     val mobileUrl: String
 ) : INews {
-    override var hiden: Boolean? = false
+    override var hidden: Boolean? = false
 }

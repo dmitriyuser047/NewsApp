@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsapp.data.Repository
 import com.example.newsapp.entity.News
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class NewsViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
     private val _news = MutableLiveData<List<News>>()
@@ -38,7 +40,7 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
 
     fun hideNews(news: News) {
         viewModelScope.launch {
-            news.hiden = true
+            news.hidden = true
             repository.updateNews(news)
         }
     }

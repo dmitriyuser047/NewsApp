@@ -2,17 +2,17 @@ package com.example.newsapp.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
-import com.example.newsapp.App
 import com.example.newsapp.entity.News
+import com.example.newsapp.room.dao.NewsDao
 import com.example.newsapp.room.entity.NewsEntity
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Repository : IRepository {
-
-    private val component = App.appComponent
-    private val newsApi = component.newsApi()
-    private val newsDao = App.newsDataBase.newsDao()
+class Repository @Inject constructor(
+    private val newsApi: NewsApi,
+    private val newsDao: NewsDao
+) : IRepository {
 
     override suspend fun getNewsList(): LiveData<List<News>> {
         val newsFromDb = newsDao.observeAllNews()
@@ -34,7 +34,7 @@ class Repository : IRepository {
     override suspend fun upsertToDatabase(news: List<News>) {
         news.forEach { new ->
             val existingNews = newsDao.getNewsById(new.id)
-            val hidden = existingNews?.hiden ?: new.hiden
+            val hidden = existingNews?.hidden ?: new.hidden
             println("hidden $existingNews = $hidden")
             newsDao.upsertNews(
                 NewsEntity(
@@ -48,7 +48,7 @@ class Repository : IRepository {
                     type = new.type,
                     newsDateUts = new.newsDateUts,
                     mobileUrl = new.mobileUrl,
-                    hiden = hidden
+                    hidden = hidden
                 )
             )
         }
@@ -83,7 +83,7 @@ class Repository : IRepository {
             type = news.type,
             newsDateUts = news.newsDateUts,
             mobileUrl = news.mobileUrl,
-            hiden = news.hiden
+            hidden = news.hidden
         )
     }
 

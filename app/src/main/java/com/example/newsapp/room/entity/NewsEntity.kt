@@ -16,5 +16,5 @@ data class NewsEntity(
     val type: Int,
     val newsDateUts: String,
     val mobileUrl: String,
-    override var hiden: Boolean?
+    override var hidden: Boolean?
 ) : INews

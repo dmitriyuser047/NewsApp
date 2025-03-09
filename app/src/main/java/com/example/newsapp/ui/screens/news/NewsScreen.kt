@@ -1,10 +1,6 @@
 package com.example.newsapp.ui.screens.news
 
-import android.view.ViewGroup
-import android.webkit.WebView
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -15,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Refresh
@@ -38,22 +33,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.example.newsapp.App
 import com.example.newsapp.R
-import com.example.newsapp.di.DaggerViewModelProvider
 import com.example.newsapp.entity.News
+import com.example.newsapp.route.NavigationItem
 
 @Composable
-fun NewsScreen() {
-    val newsViewModel = DaggerViewModelProvider.daggerViewModel {
-        App.appComponent.newsViewModel()
-    }
-    val news by newsViewModel.news.observeAsState(emptyList())
+fun NewsScreen(navController: NavController, viewModel: NewsViewModel = hiltViewModel()) {
+    val news by viewModel.news.observeAsState(emptyList())
     var searchQuery by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -62,10 +53,19 @@ fun NewsScreen() {
                 .padding(horizontal = 12.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            SearchBar(onSearchQueryChanged = { searchQuery = it }, modifier = Modifier.weight(1f))
-            RefreshNews { newsViewModel.getListNews() }
+            SearchBar(
+                onSearchQueryChanged = { searchQuery = it },
+                modifier = Modifier.weight(1f)
+            )
+            RefreshNews { viewModel.getListNews() }
         }
-        BoxNewsList(newsViewModel.filterNews(news, searchQuery), newsViewModel)
+        val filteredNews =
+            remember(news, searchQuery) { viewModel.filterNews(news, searchQuery) }
+        NewsList(
+            news = filteredNews,
+            onItemClick = { url: String -> navController.navigate(NavigationItem.Web.createRoute(url)) },
+            onHideNews = { news: News -> viewModel.hideNews(news) }
+        )
     }
 }
 
@@ -140,24 +140,6 @@ fun RefreshNews(
 }
 
 @Composable
-fun BoxNewsList(news: List<News>?, viewModel: NewsViewModel) {
-    var selectedUrl by remember { mutableStateOf<String?>(null) }
-    Box(modifier = Modifier.fillMaxSize()) {
-        NewsList(
-            news = news ?: emptyList(),
-            onItemClick = { url -> selectedUrl = url },
-            onHideNews = { news -> viewModel.hideNews(news) }
-        )
-        selectedUrl?.let { url ->
-            WebViewOverlay(
-                url = url,
-                onClose = { selectedUrl = null }
-            )
-        }
-    }
-}
-
-@Composable
 fun NewsList(
     news: List<News>,
     onItemClick: (String) -> Unit,
@@ -226,51 +208,5 @@ fun NewsView(
             requestBuilder.placeholder(R.drawable.ic_launcher_foreground)
                 .error(R.drawable.page_not_found)
         }
-    }
-}
-
-@Composable
-fun WebViewOverlay(
-    url: String,
-    onClose: () -> Unit,
-) {
-
-    BackHandler(onBack = onClose)
-
-    Box(
-        modifier = Modifier
-            .clickable(onClick = onClose)
-            .padding(top = 10.dp)
-    ) {
-        WebViewScreen(
-            url = url,
-        )
-        IconButton(
-            onClick = onClose,
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Close,
-                contentDescription = "Close",
-                tint = Color.Black
-            )
-        }
-    }
-}
-
-@Composable
-fun WebViewScreen(url: String) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        AndroidView(factory = {
-            WebView(it).apply {
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-            }
-        }, update = {
-            it.loadUrl(url)
-        })
     }
 }
