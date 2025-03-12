@@ -34,7 +34,6 @@ class Repository @Inject constructor(
         news.forEach { new ->
             val existingNews = newsDao.getNewsById(new.id)
             val hidden = existingNews?.hidden ?: new.hidden
-            println("hidden $existingNews = $hidden")
             newsDao.upsertNews(
                 NewsEntity(
                     id = new.id,
@@ -54,7 +53,7 @@ class Repository @Inject constructor(
     }
 
     override fun reformedNewsEntity(newsEntity: List<NewsEntity>): List<News> {
-        return newsEntity.map { new ->
+        return newsEntity.filter { it.hidden == false }.map { new ->
             News(
                 id = new.id,
                 title = new.title,
@@ -72,18 +71,18 @@ class Repository @Inject constructor(
 
     override fun reformedNewsToEntity(news: News): NewsEntity {
         return NewsEntity(
-            id = news.id,
-            title = news.title,
-            img = news.img,
-            localImg = news.localImg,
-            newsDate = news.newsDate,
-            annotation = news.annotation,
-            idResource = news.idResource,
-            type = news.type,
-            newsDateUts = news.newsDateUts,
-            mobileUrl = news.mobileUrl,
-            hidden = news.hidden
-        )
+                id = news.id,
+                title = news.title,
+                img = news.img,
+                localImg = news.localImg,
+                newsDate = news.newsDate,
+                annotation = news.annotation,
+                idResource = news.idResource,
+                type = news.type,
+                newsDateUts = news.newsDateUts,
+                mobileUrl = news.mobileUrl,
+                hidden = news.hidden
+            )
     }
 
     override suspend fun updateNews(news: News) {
