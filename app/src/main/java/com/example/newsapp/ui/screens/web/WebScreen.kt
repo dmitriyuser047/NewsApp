@@ -44,7 +44,8 @@ fun WebScreen(url: String, navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
         AndroidView(
             factory = { webView },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(top = 16.dp)
         )
 

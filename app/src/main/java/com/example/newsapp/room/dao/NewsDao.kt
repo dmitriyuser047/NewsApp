@@ -16,4 +16,7 @@ interface NewsDao {
 
     @Query("SELECT * FROM newsentity WHERE id = :id")
     suspend fun getNewsById(id: Int): NewsEntity?
+
+    @Query("SELECT * FROM newsentity ORDER BY newsDate DESC")
+    suspend fun getNewsList(): List<NewsEntity>
 }

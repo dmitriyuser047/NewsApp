@@ -13,6 +13,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Card
@@ -46,6 +48,7 @@ import com.example.newsapp.route.NavigationItem
 fun NewsScreen(navController: NavController, viewModel: NewsViewModel = hiltViewModel()) {
     val news by viewModel.news.collectAsStateWithLifecycle()
     var searchQuery by remember { mutableStateOf("") }
+    val currentFilterHidden by viewModel.currentFilter.collectAsStateWithLifecycle()
 
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
@@ -57,6 +60,10 @@ fun NewsScreen(navController: NavController, viewModel: NewsViewModel = hiltView
                 onSearchQueryChanged = { searchQuery = it },
                 modifier = Modifier.weight(1f)
             )
+            ToggleHiddenNewsButton(
+                showHidden = currentFilterHidden,
+                onToggle = viewModel::toggleNewsVisibility
+            )
             RefreshNews { viewModel.getListNews() }
         }
         val filteredNews =
@@ -64,7 +71,24 @@ fun NewsScreen(navController: NavController, viewModel: NewsViewModel = hiltView
         NewsList(
             news = filteredNews,
             onItemClick = { url: String -> navController.navigate(NavigationItem.Web.createRoute(url)) },
-            onHideNews = { news: News -> viewModel.hideNews(news) }
+            onHideNews = { news: News -> viewModel.hideNews(news, currentFilterHidden) }
+        )
+    }
+}
+
+@Composable
+fun ToggleHiddenNewsButton(
+    showHidden: Boolean,
+    onToggle: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    IconButton(
+        onClick = onToggle,
+        modifier = modifier.padding(top = 30.dp)
+    ) {
+        Icon(
+            imageVector = if (showHidden) Icons.Rounded.FavoriteBorder else Icons.Rounded.Favorite,
+            contentDescription = if (showHidden) "Show normal news" else "Show hidden news",
         )
     }
 }
@@ -148,7 +172,10 @@ fun NewsList(
     LazyColumn(
         contentPadding = PaddingValues(8.dp, bottom = 35.dp)
     ) {
-        items(news) { newsItem ->
+        items(
+            items = news,
+            key = { it.id }
+        ) { newsItem ->
             NewsView(
                 news = newsItem,
                 clickItemNews = { onItemClick(newsItem.mobileUrl) },
