@@ -91,15 +91,6 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation ("com.google.dagger:hilt-android:2.55")
     ksp("com.google.dagger:hilt-compiler:2.55")
-//    implementation(libs.dagger)
-//    implementation(libs.dagger.android)
-//    ksp(libs.dagger.compiler)
-    //moxy
-    implementation(libs.moxy)
-    implementation(libs.moxy.androidx)
-    ksp(libs.moxy.compiler)
-    //OmegaBase
-    implementation(libs.core)
     //Room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
