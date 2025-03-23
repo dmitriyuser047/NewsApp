@@ -1,9 +1,9 @@
-package com.example.newsapp.ui.screens.news
+package com.example.newsapp.presentation.screens.news
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.newsapp.data.Repository
-import com.example.newsapp.entity.News
+import com.example.newsapp.data.repository.Repository
+import com.example.newsapp.domain.model.News
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

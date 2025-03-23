@@ -1,8 +1,8 @@
-package com.example.newsapp.room.entity
+package com.example.newsapp.data.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.newsapp.entity.INews
+import com.example.newsapp.domain.model.INews
 
 @Entity
 data class NewsEntity(

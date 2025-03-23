@@ -1,9 +1,9 @@
-package com.example.newsapp.room.dao
+package com.example.newsapp.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.example.newsapp.room.entity.NewsEntity
+import com.example.newsapp.data.database.entity.NewsEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

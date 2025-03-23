@@ -3,9 +3,9 @@ package com.example.newsapp.di.modules
 import android.content.Context
 import androidx.room.Room
 import com.example.newsapp.data.NewsApi
-import com.example.newsapp.data.Repository
-import com.example.newsapp.room.dao.NewsDao
-import com.example.newsapp.room.database.NewsDataBase
+import com.example.newsapp.data.database.NewsDataBase
+import com.example.newsapp.data.database.dao.NewsDao
+import com.example.newsapp.data.repository.Repository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

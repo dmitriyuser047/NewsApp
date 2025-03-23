@@ -5,8 +5,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.newsapp.ui.screens.news.NewsScreen
-import com.example.newsapp.ui.screens.web.WebScreen
+import com.example.newsapp.presentation.screens.news.NewsScreen
+import com.example.newsapp.presentation.screens.web.WebScreen
 
 @Composable
 fun AppNavHost(

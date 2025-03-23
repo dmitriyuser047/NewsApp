@@ -1,4 +1,4 @@
-package com.example.newsapp.ui.screens.news
+package com.example.newsapp.presentation.screens.news
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -41,7 +41,7 @@ import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.newsapp.R
-import com.example.newsapp.entity.News
+import com.example.newsapp.domain.model.News
 import com.example.newsapp.route.NavigationItem
 
 @Composable
