@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.compose.compiler)
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    id("kotlinx-serialization")
+
 }
 
 android {
@@ -73,8 +75,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    //livedata
-    implementation (libs.androidx.runtime.livedata)
+    //serializable
+    implementation(libs.kotlinx.serialization.json)
     //navigation compose
     implementation(libs.androidx.navigation.compose)
     //net

@@ -62,7 +62,8 @@ fun NewsScreen(navController: NavController, viewModel: NewsViewModel = hiltView
             )
             ToggleHiddenNewsButton(
                 showHidden = currentFilterHidden,
-                onToggle = viewModel::toggleNewsVisibility
+                onToggle = viewModel::toggleNewsVisibility,
+                modifier = Modifier.padding(start = 8.dp, top = 50.dp)
             )
 //            RefreshNews { viewModel.getListNews() }
         }
@@ -70,7 +71,7 @@ fun NewsScreen(navController: NavController, viewModel: NewsViewModel = hiltView
             remember(news, searchQuery) { viewModel.filterNews(news, searchQuery) }
         NewsList(
             news = filteredNews,
-            onItemClick = { url: String -> navController.navigate(NavigationItem.Web.createRoute(url)) },
+            onItemClick = { url: String -> navController.navigate(NavigationItem.Web(url)) },
             onHideNews = { news: News -> viewModel.hideNews(news, currentFilterHidden) }
         )
     }
@@ -80,11 +81,11 @@ fun NewsScreen(navController: NavController, viewModel: NewsViewModel = hiltView
 fun ToggleHiddenNewsButton(
     showHidden: Boolean,
     onToggle: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier
 ) {
     IconButton(
         onClick = onToggle,
-        modifier = modifier.padding(top = 30.dp)
+        modifier = modifier
     ) {
         Icon(
             imageVector = if (showHidden) Icons.Rounded.FavoriteBorder else Icons.Rounded.Favorite,

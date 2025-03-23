@@ -1,15 +1,12 @@
 package com.example.newsapp.route
 
-import java.net.URLEncoder
+import kotlinx.serialization.Serializable
 
-enum class Screen {
-    NEWS
-}
+sealed class NavigationItem {
 
-sealed class NavigationItem(val route: String) {
-    data object News : NavigationItem(Screen.NEWS.name)
+    @Serializable
+    data object News : NavigationItem()
 
-    data object Web : NavigationItem("web/{url}") {
-        fun createRoute(url: String) = "web/${URLEncoder.encode(url, "UTF-8")}"
-    }
+    @Serializable
+    data class Web(val url: String) : NavigationItem()
 }
