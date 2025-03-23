@@ -58,7 +58,6 @@ class Repository @Inject constructor(
         showHiddenList: Boolean
     ): List<News> {
         return newsEntity
-            .asSequence()
             .filter { it.hidden == showHiddenList }
             .map { new ->
                 News(
@@ -73,7 +72,7 @@ class Repository @Inject constructor(
                     newsDateUts = new.newsDateUts,
                     mobileUrl = new.mobileUrl
                 )
-            }.toList()
+            }
     }
 
     override suspend fun reformedNewsToEntity(news: News): NewsEntity {

@@ -17,7 +17,8 @@ data class News(
     @Json(name = "news_date_uts")
     val newsDateUts: String,
     @Json(name = "mobile_url")
-    val mobileUrl: String
-) : INews {
+    val mobileUrl: String,
+    @Json(ignore = true)
     override var hidden: Boolean? = false
+) : INews {
 }

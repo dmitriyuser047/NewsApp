@@ -64,7 +64,7 @@ fun NewsScreen(navController: NavController, viewModel: NewsViewModel = hiltView
                 showHidden = currentFilterHidden,
                 onToggle = viewModel::toggleNewsVisibility
             )
-            RefreshNews { viewModel.getListNews() }
+//            RefreshNews { viewModel.getListNews() }
         }
         val filteredNews =
             remember(news, searchQuery) { viewModel.filterNews(news, searchQuery) }

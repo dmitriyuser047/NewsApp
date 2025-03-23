@@ -5,38 +5,27 @@ import androidx.lifecycle.viewModelScope
 import com.example.newsapp.data.Repository
 import com.example.newsapp.entity.News
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class NewsViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-    private val _news = MutableStateFlow(emptyList<News>())
     val news: StateFlow<List<News>>
-        get() = _news
 
     private val _currentFilter = MutableStateFlow(false)
     val currentFilter: StateFlow<Boolean> = _currentFilter.asStateFlow()
 
     init {
-        getListNews()
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun getListNews() {
-        viewModelScope.launch {
-            _currentFilter.flatMapLatest { showHidden ->
-                repository.getNewsList(showHidden)
-            }
-                .collect { newsList ->
-                    _news.value = newsList
-                }
-        }
+        news = _currentFilter
+            .flatMapLatest { showHidden -> repository.getNewsList(showHidden) }
+            .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
     }
 
     fun toggleNewsVisibility() {
@@ -53,8 +42,8 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
 
     fun hideNews(news: News, stateHidden: Boolean) {
         viewModelScope.launch {
-            news.hidden = !stateHidden
-            repository.updateNews(news)
+            val newNews = news.copy(hidden = !stateHidden)
+            repository.updateNews(newNews)
         }
     }
 }
