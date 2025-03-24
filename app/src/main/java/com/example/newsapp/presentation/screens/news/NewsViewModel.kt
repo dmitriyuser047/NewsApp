@@ -2,7 +2,7 @@ package com.example.newsapp.presentation.screens.news
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.newsapp.data.repository.Repository
+import com.example.newsapp.data.repository.NewsRepositoryImpl
 import com.example.newsapp.domain.model.News
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NewsViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+class NewsViewModel @Inject constructor(private val repository: NewsRepositoryImpl) : ViewModel() {
 
     val news: StateFlow<List<News>>
 

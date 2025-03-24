@@ -1,4 +1,4 @@
-package com.example.newsapp.data
+package com.example.newsapp.data.source
 
 import com.example.newsapp.domain.model.NewsData
 import retrofit2.http.GET

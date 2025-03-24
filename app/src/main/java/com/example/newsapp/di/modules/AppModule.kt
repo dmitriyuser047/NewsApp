@@ -2,10 +2,10 @@ package com.example.newsapp.di.modules
 
 import android.content.Context
 import androidx.room.Room
-import com.example.newsapp.data.NewsApi
 import com.example.newsapp.data.database.NewsDataBase
 import com.example.newsapp.data.database.dao.NewsDao
-import com.example.newsapp.data.repository.Repository
+import com.example.newsapp.data.repository.NewsRepositoryImpl
+import com.example.newsapp.data.source.NewsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,8 +34,8 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideRepository(newsDao: NewsDao, newsApi: NewsApi): Repository {
-        return Repository(newsApi, newsDao)
+    fun provideRepository(newsDao: NewsDao, newsApi: NewsApi): NewsRepositoryImpl {
+        return NewsRepositoryImpl(newsApi, newsDao)
     }
 
 }

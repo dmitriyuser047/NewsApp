@@ -1,7 +1,7 @@
 package com.example.newsapp.di.modules
 
 import com.example.newsapp.BuildConfig
-import com.example.newsapp.data.NewsApi
+import com.example.newsapp.data.source.NewsApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
